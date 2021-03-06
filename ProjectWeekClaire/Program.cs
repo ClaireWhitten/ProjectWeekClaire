@@ -10,11 +10,13 @@ namespace ProjectWeekClaire
 {
     class Program
     {
+        
+
         static void Main(string[] args)
         {
             showMenu();
 
-
+            int balance = 200; //why is this not global
 
 
 
@@ -119,11 +121,23 @@ namespace ProjectWeekClaire
 
                 if (passwordMatch(returnedUserDetails, userName))
                 {
-                    /*delete the string from the data text file  - ADD!!!!!!!!
-                    string item = usertxt2.Text.Trim();
-                    var lines = File.ReadAllLines(usersPath).Where(line => line.Trim() != item).ToArray();
-                    File.WriteAllLines(usersPath, lines);*/
-                    Console.WriteLine("Deze gebruiker is successvol verwijderd.");
+                    
+                    string[] allUsersArray = File.ReadAllLines(@"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt"); //ReadAllLines returns an array
+                    List<string> allUsersList = allUsersArray.OfType<string>().ToList(); //changed to a list so I can more easily remove an item
+                    int index = allUsersList.IndexOf(returnedUserDetails);
+                    allUsersList.RemoveAt(index);
+
+                    using (StreamWriter writer = new StreamWriter(@"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt"))
+                    {
+                        for (int i = 0; i < allUsersList.Count; i++)
+                        {
+                            Console.WriteLine(allUsersList[i]);  //prints the left items in list once it has been removed to console
+                            writer.WriteLine(allUsersList[i]);    // writes the left items in list once it has been removed to the text file  - should be gone 
+                        }
+                    }
+
+                        Console.WriteLine(allUsersList.Count); //why is this still 3? - the removed item is leaving an empty space 
+                        Console.WriteLine("Deze gebruiker is successvol verwijderd.");
                 }
                 else
                 {
@@ -144,16 +158,76 @@ namespace ProjectWeekClaire
 
         static void Inloggen()
         {
-
+            Console.Write("Gebruikersnaam:");
+            string userName = Console.ReadLine();
+            string returnedUserDetails = searchFile(userName, @"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt");
+            if (!String.IsNullOrEmpty(returnedUserDetails))
+            {
+                if (passwordMatch(returnedUserDetails, userName))
+                {
+                    GameMenu(userName,200);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Deze gebruikersnaam is niet herkend. Probeer opnieuw.");
+                Inloggen();
+            }
+           
         }
 
-
+        static void GameMenu( string username, int balance)
+        {
+            Console.Clear();
+            Console.WriteLine($"WELCOME {username}   :)");
+            //Console.WriteLine($"{date}, {time}   Je bent {length} ingelogd.");
+            Console.WriteLine($"Je hebt ${balance} om me te spelen!");
+            Console.WriteLine("Wat wil je doen? Kies een optie:");
+            Console.WriteLine("1. Play Blackjack");
+            Console.WriteLine("2. Play slot machine");
+            Console.WriteLine("3. Play memory");
+            Console.WriteLine("4. Uitloggen");
+            
+           
+        }
 
 
 
         static void userBewerken()
         {
+            Console.WriteLine("Geef jouw huidige gebruikersnaam en wachtword.");
+            Console.Write("Huidige gebruikersnaam:");
+            //save
+            Console.Write("Huidige wachtwoord:");
+            //save
+            //set as string 
+            //check if match
+            //if matches 
+            Console.WriteLine("Geef jouw nieuwe gebruikersnaam en wachtword.");
+            Console.Write("Nieuwe gebruikersnaam:");
+            Console.Write("Nieuwe wachtwoord:");
+            //save as second string 
+            //loop over the lines in text file and replace 2nd string with first string 
 
+
+           /* string userName = Console.ReadLine();
+            string returnedUserDetails = searchFile(userName, @"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt");
+            if (!String.IsNullOrEmpty(returnedUserDetails))
+            {
+                if (passwordMatch(returnedUserDetails, userName))
+                {
+                    
+                    userToevoegen();
+                    Console.WriteLine("Geef nieuw username:");
+                    
+
+                }
+             
+            } else
+            {
+                Console.WriteLine("Deze gebruikersnaam bestaat niet. Probeer opnieuw.");
+                userBewerken();
+            }*/
         }
 
 
@@ -166,14 +240,14 @@ namespace ProjectWeekClaire
 
 
 
+        //write to file (replace) 
+        
 
 
 
 
 
-
-
-        //Write to file
+        //Write to file (append)
         static void writeToFile(string userName, string password)
         {
             string path = @"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt"; //will this path work on other computers?
