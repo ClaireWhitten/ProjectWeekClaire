@@ -73,8 +73,8 @@ namespace ProjectWeekClaire
                         string line = reader.ReadLine();
                         if (line.Contains(userName))
                         {
-                            Console.WriteLine("Je hebt al een account aangemaakt. Kies een andere optie(2,3 of 4).");
-                            showMenu();
+                            Console.WriteLine("Deze username in al in gebruik. Kies een andere username.");
+                            userToevoegen();
                         }
                     }
                 }
@@ -155,7 +155,9 @@ namespace ProjectWeekClaire
 
 
 
-
+        
+        
+        //Log in 
         static void Inloggen()
         {
             Console.Write("Gebruikersnaam:");
@@ -176,6 +178,7 @@ namespace ProjectWeekClaire
            
         }
 
+        //show game menu
         static void GameMenu( string username, int balance)
         {
             Console.Clear();
@@ -192,42 +195,74 @@ namespace ProjectWeekClaire
         }
 
 
-
+        //Edit a username and password  - MAKE METHODS FOR NEW USERNAME AND PASSWORD REGEX CHECK
         static void userBewerken()
         {
             Console.WriteLine("Geef jouw huidige gebruikersnaam en wachtword.");
             Console.Write("Huidige gebruikersnaam:");
-            //save
-            Console.Write("Huidige wachtwoord:");
-            //save
-            //set as string 
-            //check if match
-            //if matches 
-            Console.WriteLine("Geef jouw nieuwe gebruikersnaam en wachtword.");
-            Console.Write("Nieuwe gebruikersnaam:");
-            Console.Write("Nieuwe wachtwoord:");
-            //save as second string 
-            //loop over the lines in text file and replace 2nd string with first string 
-
-
-           /* string userName = Console.ReadLine();
-            string returnedUserDetails = searchFile(userName, @"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt");
-            if (!String.IsNullOrEmpty(returnedUserDetails))
+            string userName = Console.ReadLine();
+            string currentUserDetails = searchFile(userName, @"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt");
+            if (!String.IsNullOrEmpty(currentUserDetails))
             {
-                if (passwordMatch(returnedUserDetails, userName))
+                Console.Write("Huidige ");
+
+                if (passwordMatch(currentUserDetails, userName))
                 {
-                    
-                    userToevoegen();
-                    Console.WriteLine("Geef nieuw username:");
-                    
+                    Console.WriteLine("Kies een nieuwe gebruikersnaam. Gebruik alleen maar cijfers en letters.");   ///CHANGE TO METHOD 
+                    Console.WriteLine("Nieuwe gebruikersnaam:");
+                    string newUserName = Console.ReadLine();
+                    Regex userPattern = new Regex(@"^[a-zA-Z0-9]+$");
+                    if (userPattern.IsMatch(newUserName))
+                    {
+                        Console.WriteLine("Jouw nieuw gevruikersnaam is valid!");
+                        string path = @"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt";
+                        using (StreamReader reader = new StreamReader(path))
+                        {
+                            while (!reader.EndOfStream)
+                            {
+                                string line = reader.ReadLine();
+                                if (line.Contains(newUserName))
+                                {
+                                    Console.WriteLine("Deze username in al in gebruik. Probeer opnieuw.");
+                                    userBewerken();
+                                }
+                            }
+                        }
 
+                        bool valid = false;
+                        while (!valid)
+                        {
+                            Console.WriteLine("Kies een password. Gebruik het volgende: \n  - 1 hoofdletter \n  - 1 kleine letter \n - 1 cijfer \n - 1 vreemd teken \n -8-20 characters");
+                            Console.WriteLine("Password:");
+                            string newPassword = Console.ReadLine();
+                            Regex passwordPattern = new Regex(@"[a-z]+[A-Z]+[0-9]+[^a-zA-Z0-9]+");// only working in this order - how to change??? can you check length with reg ex   At least one special character [*.!@#$%^&(){}[]:;<>,.?/~_+-=|\]
+                            if (passwordPattern.IsMatch(newPassword) && newPassword.Length >= 8 && newPassword.Length <= 20)
+                            {
+                                Console.WriteLine("Valid password!");
+                                valid = true;
+                                string newEncryptedPassword = Encrypt(newPassword);
+                                string newUserDetails = $"{newUserName}#{newEncryptedPassword}";
+                                ReplaceUserDetails(currentUserDetails, newUserDetails);
+                                Console.WriteLine("Jouw gebruikersnaam en password is successvol begewerkt.");
+                                Console.WriteLine("Nu kan je inloggen met deze nieuwe gegevens.");
+                                showMenu();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid password. De voorwaarden zijn: \n  - 1 hoofdletter \n  - 1 kleine letter \n - 1 cijfer \n - 1 vreemd teken \n -8-20 characters \n Kies een andere password.");
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid username! Use letters and numbers only. Kies een andere user name.");
+                        userBewerken();
+                    }
                 }
-             
-            } else
-            {
-                Console.WriteLine("Deze gebruikersnaam bestaat niet. Probeer opnieuw.");
-                userBewerken();
-            }*/
+
+            }      
+            
         }
 
 
@@ -240,13 +275,8 @@ namespace ProjectWeekClaire
 
 
 
-        //write to file (replace) 
-        
-
-
-
-
-
+       
+      
         //Write to file (append)
         static void writeToFile(string userName, string password)
         {
@@ -260,6 +290,20 @@ namespace ProjectWeekClaire
             showMenu();
         }
 
+
+         
+
+
+
+
+       //Replace/Edit user details 
+         static void ReplaceUserDetails(string currentDetails, string newDetails)
+         {
+            string dataText = File.ReadAllText(@"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt");
+            string newText = dataText.Replace(currentDetails, newDetails);
+            Console.WriteLine(newText);
+            File.WriteAllText(@"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt", newText);  //if this doesn't work do it as a loop line by line and replace 
+        }
 
 
 
@@ -295,7 +339,7 @@ namespace ProjectWeekClaire
 
 
 
-
+        
 
 
 
