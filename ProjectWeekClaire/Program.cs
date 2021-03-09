@@ -10,16 +10,15 @@ namespace ProjectWeekClaire
 {
     class Program
     {
+        
 
         static Random rGenerator = new Random();
 
-        //questions  - bewerken? encrypting ++? balance as global variable? regex order problem? alt-codes?
+       
         static void Main(string[] args)
         {
         
          
-           
-
             //showMenu();
 
             int balance = 200; //to make global  - pass it through as parameter 
@@ -27,250 +26,13 @@ namespace ProjectWeekClaire
 
 
 
-            /* BLACKJACK GAME
-
-            string[] kaarten = { "A♥", "2♥", "3♥", "4♥", "5♥", "6♥", "7♥", "8♥", "9♥", "10♥", "J♥", "Q♥", "K♥",
-                "A♦", "2♦", "3♦", "4♦", "5♦", "6♦", "7♦", "8♦", "9♦", "10♦", "J♦", "Q♦", "K♦",
-            "A♣", "2♣", "3♣", "4♣", "5♣", "6♣", "7♣", "8♣", "9♣", "10♣", "J♣", "Q♣", "K♣",
-            "A♠", "2♠", "3♠", "4♠", "5♠", "6♠", "7♠", "8♠", "9♠", "10♠", "J♠", "Q♠", "K♠"};
-
-            int[] values = {11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
-            11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
-            11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
-            11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,};
-
-            //variables 
-            string spelerCurrentHand = "";
-            string dealerCurrentHand = "";
-            int spelerTotal = 0;
-            int dealerTotal = 0;
-            string choice = "";
-            List<int> cardsDrawn = new List<int>();  //list because don't know how long it will be in advance 
             
-
-            balance = balance - 10;
-
-            //instructions
-            Console.WriteLine("Welcome to Blackjack!         To draw a card press D, to stop drawing press S \n");
-
-            /*Console.WriteLine("A blackjack pot costs $10.");
-            Console.WriteLine("The goal is to beat the dealer. Whoever scores the highest number closest to 21 wins!");
-            Console.WriteLine("If your total is greater than 21 you lose!");
-            Console.WriteLine("You can choose to keep drawing(d) or stop!(s)");
-
-           
-
-            Console.WriteLine("Your starting hand: \n");
-
-
-            for (int i = 0; i < 2; i++)
-            {
-                int randomNumber = rGenerator.Next(0, 52);
-                spelerCurrentHand = spelerCurrentHand + kaarten[randomNumber] + "    ";
-                cardsDrawn.Add(values[randomNumber]); 
-            }
-            
-            spelerTotal = cardsDrawn.Sum();
-            Console.WriteLine($"{spelerCurrentHand}                                 Total:{spelerTotal} \n"); 
-
-
-            if (spelerTotal == 21)
-            {
-                Console.WriteLine("Wow! Your first 2 cards total 21. You win $25!");
-                balance = balance + 25;
-            }
-
-
-            while (spelerTotal < 21 && choice != "S")
-            {
-                Console.Write("Draw(D)/Stop(S):");
-                choice = Console.ReadLine().ToUpper();
-
-                if (choice == "D")
-                {
-                    int randomNumber = rGenerator.Next(0, 52);
-                    spelerCurrentHand = spelerCurrentHand + kaarten[randomNumber] + "    ";
-                    cardsDrawn.Add(values[randomNumber]);
-                    spelerTotal = cardsDrawn.Sum();
-                    if (spelerTotal > 21)
-                    {
-                        for (int i = 0; i < cardsDrawn.Count; i++)
-                        {
-                            if (cardsDrawn[i] == 11)
-                            {
-                                cardsDrawn[i] = 1;
-                            }
-                        }
-                        spelerTotal = cardsDrawn.Sum();
-                    }
-                    Console.WriteLine($"{spelerCurrentHand}                          Total:{spelerTotal}");
-                }
-                if (choice == "S")
-                {
-                    Console.WriteLine($"You have stopped. Your final total is {spelerTotal}");
-                    dealerTotal = dealersTurn(dealerTotal, dealerCurrentHand, kaarten, values);
-
-                }
-              
-            }
-
-            if (spelerTotal >= 21)
-            {
-                Console.WriteLine($"Your total has reached 21 or over. Your final total is {spelerTotal}");
-                dealerTotal = dealersTurn(dealerTotal, dealerCurrentHand, kaarten, values);
-            }
-
-
-
-
-            //check rules again in document 
-            if (spelerTotal > 21 && dealerTotal <= 21)
-            {
-                Console.WriteLine("You Lose! You have more than 21.");
-
-            } else if (spelerTotal <= 21 && (spelerTotal > dealerTotal || dealerTotal > 21))
-            {
-                Console.WriteLine("You win! You receive $20 and your $10 back!"); //? + 20 or 30
-                balance = balance + 30;
-
-            } else if (spelerTotal < dealerTotal && dealerTotal <= 21)
-            {
-                Console.WriteLine("You lose! The dealer has more.");
-
-            } else if (spelerTotal == dealerTotal || (dealerTotal > 21 && spelerTotal > 21))
-            {
-                Console.WriteLine("It's a draw between you and the dealer! You both have more than 21.");
-                Console.WriteLine("You get your $10 back!");  // is this needed? 
-                balance = balance + 10;
-            }
-
             
             gameMenu(balance);
-
-            */
-
-            // Fruit machine 
-            //Random rnd = new Random();
-            //string[] MyRandomArray = MyArray.OrderBy(x => rnd.Next()).ToArray();
-
-
-
-            int random;
-
-           
-
-            string[] symbols = {"☺", "♠", "♣", "♦", "♥", "A", "7"};
-
-            string[] fruitMachine = new string[9];
-
             
             
-            string answer = "";
-            do
-            {
-                balance = balance - 5;
 
-                Console.WriteLine($"Welcome to the Slot Machine!");
-                Console.WriteLine("Get 3 of the same symbols horizontally or diagonally to win!");
-
-               
-                for (int i = 0; i < fruitMachine.Length; i++)
-                {
-                    random = rGenerator.Next(0, 7);
-                    fruitMachine[i] = symbols[random]; 
-                }
-
-                /*for (int i = 0; i < fruitMachine.Length; i++)
-                { 
-                    Console.Clear();
-                    Console.WriteLine($"{fruitMachine[i]} {fruitMachine[i+1]} {fruitMachine[i+2]}");
-                }*/
-                
-                
-                Console.WriteLine($"{fruitMachine[0]} {fruitMachine[1]} {fruitMachine[2]}");
-
-                Console.WriteLine($"{fruitMachine[3]} {fruitMachine[4]} {fruitMachine[5]}");
-
-                Console.WriteLine($"{fruitMachine[6]} {fruitMachine[7]} {fruitMachine[8]}");
-
-
-                string symbol;
-                int total = 0;
-                for (int i = 0; i < fruitMachine.Length; i++)
-                {
-                    //check for horizontal rows and update total
-                    if (i == 0 || i == 3 || i == 6)
-                    {
-                        if (fruitMachine[i] == fruitMachine[i+1] && fruitMachine[i+1] == fruitMachine[i + 2])
-                        {
-                            symbol = fruitMachine[i];
-                            total = symbolCheck(symbol, total, balance);
-                            
-
-                        }
-                    }
-                    //check for diagonal rows and update total
-                    if (i == 0 || i == 7)
-                    {
-                        if (i == 0)
-                        {
-                            if (fruitMachine[i] == fruitMachine[i + 4] && fruitMachine[i+4] == fruitMachine[i + 8])
-                            {
-                                symbol = fruitMachine[i];
-                                total = symbolCheck(symbol,total, balance);
-                            }
-                        }
-                        if (i == 6)
-                        {
-                            if (fruitMachine[i] == fruitMachine[i -2] && fruitMachine[i - 2] == fruitMachine[i + 4])
-                            {
-                                symbol = fruitMachine[i];
-                                total = symbolCheck(symbol, total, balance);
-                            }
-                        }
-                    }
-                }
-                //check if no rows
-                if (total == 0)
-                {
-                    Console.WriteLine($"No rows! Sorry you lose your $5.             Your balance: {balance}");
-                }
-
-                balance = balance + total;
-
-                Console.WriteLine("Do you want to play again?");
-                answer = Console.ReadLine().ToUpper();
-
-                Console.Clear(); 
-
-                
-
-            } while (answer == "Y");
-
-
-            gameMenu(balance);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+          
             Console.ReadLine();
         }
 
@@ -279,27 +41,9 @@ namespace ProjectWeekClaire
 
         //METHODS 
 
-        //Main menu
-
-
-        static int dealersTurn(int dealerTotal, string dealerCurrentHand, string[] kaarten, int[] values)
-        {
-           
-            while (dealerTotal < 17)
-            {
-                int randomNumber = rGenerator.Next(0, 52);
-                dealerCurrentHand = dealerCurrentHand + kaarten[randomNumber] + "    ";
-                dealerTotal = dealerTotal + values[randomNumber];
-                Console.WriteLine($"{dealerCurrentHand}                            Total:{dealerTotal}");
-                
-            }
-
-            Console.WriteLine("The dealer's final score: ");
-            Console.WriteLine($"{dealerCurrentHand}                                Total:{dealerTotal}");
-            return dealerTotal;
-        }
-
-
+     
+       
+        //Check symbols
         static int symbolCheck(string symbol, int total, int balance)
         {
             switch (symbol)
@@ -349,6 +93,7 @@ namespace ProjectWeekClaire
 
         }
 
+        //Show main menu
         static void showMenu()
         {
 
@@ -361,7 +106,7 @@ namespace ProjectWeekClaire
             string input = Console.ReadLine();
             switch (input)
             {
-                case "1": userToevoegen(); break;
+                case "1":userToevoegen();break;
                 case "2": userBewerken(); break;
                 case "3": userVerwijderen(); break;
                 case "4": Inloggen(); break;
@@ -369,26 +114,406 @@ namespace ProjectWeekClaire
         }
 
 
-
-        //show game menu
-        static void gameMenu(int balance =200, string username = "Unknown user")
+        //Show game menu
+        static void gameMenu(int balance =200, string username= "unknown user")
         {
            
-            Console.WriteLine($"WELCOME {username}   :)");
+            Console.Write("WELCOME ");
+            changeColour(ConsoleColor.Blue, $"{username}!\n");
             //Console.WriteLine($"{date}, {time}   Je bent {length} ingelogd.");
-            Console.WriteLine($"Je hebt nu ${balance} om me te spelen!");
-            Console.WriteLine("Wat wil je doen? Kies een optie:");
-            Console.WriteLine("1. Play Blackjack");
-            Console.WriteLine("2. Play slot machine");
-            Console.WriteLine("3. Play memory");
-            Console.WriteLine("4. Uitloggen");
+
+            Console.Write("You have ");
+            changeColour(ConsoleColor.Green, $"${balance} ");
+            Console.WriteLine("left to play with!\n");
+
+            Console.WriteLine("What do you want to do? Choose an option:\n");
+            Console.WriteLine("1. Play Blackjack ($10)");
+            Console.WriteLine("2. Play Slot Machine ($5)");
+            Console.WriteLine("3. Play Memory ($20)");
+            Console.WriteLine("4. Log Out");
+            string input = Console.ReadLine();
+            switch (input)
+            {
+                case "1":
+                    Console.Clear();
+                    BlackJack(balance);
+                    break;
+
+                case "2":
+                    Console.Clear();
+                    SlotMachine(balance);                 
+                    break;
+                case "3":
+                    Console.Clear();
+                    Memory(balance);              
+                    break;
+                case "4":
+                    Console.Clear();
+                    showMenu();                 
+                    break;
+            }
+        }
+
+
+        //Memory Game
+        static void Memory(int balance)
+        {
+            string[] memorySymbols = { "☺", "♠", "♣", "♦", "♥", "▲", "Ω", "☺", "♠", "♣", "♦", "♥", "▲", "Ω", "☺", "♠", "♣", "♦", "♥", "▲", "Ω" };
+            string[] sequence = new string[9];
+            string input;
+            string answer;
+            string convertedAnswer;
+            bool valid = true;
+
+            do
+            {
+                balance = balance - 20;
+                //The sequence is created and appears
+                Console.WriteLine($"Welcome to the Memory Game!                                       Balance:£{balance}\n");
+                Console.WriteLine("You have 10 seconds to remember this sequence: \n");
+                for (int i = 1; i <= 9; i++)
+                {
+                    Console.Write(i + "    ");
+                }
+                Console.WriteLine("");
+
+                for (int i = 0; i < sequence.Length; i++)
+                {
+                    sequence[i] = memorySymbols[rGenerator.Next(0, 21)];
+                    Console.Write(sequence[i] + "    ");
+                }
+
+                System.Threading.Thread.Sleep(10000);
+                Console.Clear();
+
+
+                Console.WriteLine("Key:  ☺ = 1     ♠ = 2      ♣ = 3      ♦ = 4      ♥ = 5    ▲ = 6     Ω = 7 \n");
+                Console.WriteLine("Now write the sequence using the key above. e.g. 173452266 \n");
+
+
+                do
+                {
+
+                    Console.Write("Sequence: \n");
+
+                    answer = Console.ReadLine().Replace(" ", "");
+
+                    //add || Regex.IsMatch(answer, @"^\d+$")
+                    if (answer.Length != 9 || answer.Contains("8") || answer.Contains("9") || answer.Contains("0"))
+                    {
+                        Console.WriteLine("Your answer is not the correct length or uses invalid numbers. Try again.\n");
+                        valid = false;
+                    }
+                    else
+                    {
+                        valid = true;
+                    }
+
+                } while (!valid);
+
+                convertedAnswer = answer.Replace("1", "☺")
+                        .Replace("2", "♠")
+                        .Replace("3", "♣")
+                        .Replace("4", "♦")
+                        .Replace("5", "♥")
+                        .Replace("6", "▲")
+                        .Replace("7", "Ω");
+                string sequenceString = string.Join("", sequence);
+
+                Console.Clear();
+                Console.WriteLine($"Your answer:{convertedAnswer}\n");
+                Console.WriteLine($"The original sequence:{sequenceString}\n");
+
+                if (convertedAnswer == sequenceString)
+                {
+                    balance = balance + 30;
+                    Console.WriteLine($"Correct sequence!! You get your $20 back and win $10!                        Balance:£{balance}");
+
+                }
+                else
+                {
+                    Console.WriteLine($"Wrong sequence. You lose your $20.                                           Balance:£{balance}");
+                }
+
+                Console.WriteLine("\n Do you want to play again? (Y/N)");
+                input = Console.ReadLine().ToUpper();
+
+                Console.Clear();
+
+            } while (input == "Y");
+
+            gameMenu(balance);
+
+        }
+
+        //Slot Machine 
+        static void SlotMachine(int balance)
+        {
+            int random;
+            string[] symbols = { "☺", "♠", "♣", "♦", "♥", "A", "7" };
+            string[] fruitMachine = new string[9];
+            string answer = "";
+
+            do
+            {
+                balance = balance - 5;
+
+                Console.WriteLine($"Welcome to the Slot Machine!");
+                Console.WriteLine("Get 3 of the same symbols horizontally or diagonally to win!");
+
+
+                for (int i = 0; i < fruitMachine.Length; i++)
+                {
+                    random = rGenerator.Next(0, 7);
+                    fruitMachine[i] = symbols[random];
+                }
+
+                for (int i = 0; i < fruitMachine.Length; i++)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"{fruitMachine[i]} {fruitMachine[i + 1]} {fruitMachine[i + 2]}");
+                }
+
+
+                Console.WriteLine($"{fruitMachine[0]} {fruitMachine[1]} {fruitMachine[2]}");
+
+                Console.WriteLine($"{fruitMachine[3]} {fruitMachine[4]} {fruitMachine[5]}");
+
+                Console.WriteLine($"{fruitMachine[6]} {fruitMachine[7]} {fruitMachine[8]}");
+
+
+                string symbol;
+                int total = 0;
+                for (int i = 0; i < fruitMachine.Length; i++)
+                {
+                    //check for horizontal rows and update total
+                    if (i == 0 || i == 3 || i == 6)
+                    {
+                        if (fruitMachine[i] == fruitMachine[i + 1] && fruitMachine[i + 1] == fruitMachine[i + 2])
+                        {
+                            symbol = fruitMachine[i];
+                            total = symbolCheck(symbol, total, balance);
+
+
+                        }
+                    }
+                    //check for diagonal rows and update total
+                    if (i == 0 || i == 7)
+                    {
+                        if (i == 0)
+                        {
+                            if (fruitMachine[i] == fruitMachine[i + 4] && fruitMachine[i + 4] == fruitMachine[i + 8])
+                            {
+                                symbol = fruitMachine[i];
+                                total = symbolCheck(symbol, total, balance);
+                            }
+                        }
+                        if (i == 6)
+                        {
+                            if (fruitMachine[i] == fruitMachine[i - 2] && fruitMachine[i - 2] == fruitMachine[i + 4])
+                            {
+                                symbol = fruitMachine[i];
+                                total = symbolCheck(symbol, total, balance);
+                            }
+                        }
+                    }
+                }
+                //check if no rows
+                if (total == 0)
+                {
+                    Console.WriteLine($"No rows! Sorry you lose your $5.             Your balance: {balance}");
+                }
+
+                balance = balance + total;
+
+                Console.WriteLine("Do you want to play again?");
+                answer = Console.ReadLine().ToUpper();
+
+                Console.Clear();
+
+
+
+            } while (answer == "Y");
+
+
+            gameMenu(balance);
 
 
         }
 
 
+        //Blackjack
+        static void BlackJack(int balance)
+        {
+            string[] kaarten = { "A♥", "2♥", "3♥", "4♥", "5♥", "6♥", "7♥", "8♥", "9♥", "10♥", "J♥", "Q♥", "K♥",
+                "A♦", "2♦", "3♦", "4♦", "5♦", "6♦", "7♦", "8♦", "9♦", "10♦", "J♦", "Q♦", "K♦",
+            "A♣", "2♣", "3♣", "4♣", "5♣", "6♣", "7♣", "8♣", "9♣", "10♣", "J♣", "Q♣", "K♣",
+            "A♠", "2♠", "3♠", "4♠", "5♠", "6♠", "7♠", "8♠", "9♠", "10♠", "J♠", "Q♠", "K♠"};
+
+            int[] values = {11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
+            11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
+            11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,
+            11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10,};
+
+            //variables 
+            string spelerCurrentHand;
+            string dealerCurrentHand = "";
+            int spelerTotal;
+            int dealerTotal = 0;
+            string choice = "";
+            List<int> cardsDrawn = new List<int>();  
+            string keepPlaying;
 
 
+
+
+            Console.WriteLine($"\nWelcome to Blackjack!");                               
+
+
+            Console.WriteLine("\nThe game will start in 20 seconds.");
+            Console.WriteLine("\nYou will get 2 starting cards in your hand.");
+            Console.WriteLine("\nKeep drawing cards to get as close to 21 as possible.");
+            Console.WriteLine("\nBut don't go over 21 or you'll lose!");
+            Console.WriteLine("\nTo draw a card press D, to stop drawing press S.");
+            System.Threading.Thread.Sleep(10000);
+            Console.Clear();
+
+
+
+            do {
+                spelerCurrentHand = "";
+                cardsDrawn.Clear();
+                balance = balance - 10;
+                choice = "";
+                dealerTotal = 0;
+
+
+                for (int i = 0; i < 2; i++)
+                {
+                    int randomNumber = rGenerator.Next(0, 52);
+                    spelerCurrentHand = spelerCurrentHand + kaarten[randomNumber] + "    ";
+                    cardsDrawn.Add(values[randomNumber]);
+                }
+
+                spelerTotal = cardsDrawn.Sum();
+                Console.WriteLine($"\n{spelerCurrentHand}                                 Total:{spelerTotal}");
+
+
+                if (spelerTotal == 21)
+                {
+                    balance = balance + 25;
+                    Console.WriteLine($"\nWow! Your first 2 cards total 21. You win $25!  Balance:£{balance}");
+                    
+                }
+
+                
+                while (spelerTotal < 21 && choice != "S")
+                {
+                    Console.Write("\nDraw(D)/Stop(S):");
+                    choice = Console.ReadLine().ToUpper();
+
+                    if (choice == "D")
+                    {
+                        Console.Clear();
+                        int randomNumber = rGenerator.Next(0, 52);
+                        spelerCurrentHand = spelerCurrentHand + kaarten[randomNumber] + "    ";
+                        cardsDrawn.Add(values[randomNumber]);
+                        spelerTotal = cardsDrawn.Sum();
+                        if (spelerTotal > 21)
+                        {
+                            for (int i = 0; i < cardsDrawn.Count; i++)
+                            {
+                                if (cardsDrawn[i] == 11)
+                                {
+                                    cardsDrawn[i] = 1;
+                                }
+                            }
+                            spelerTotal = cardsDrawn.Sum();
+                        }
+                        Console.WriteLine($"\n{spelerCurrentHand}                          Total:{spelerTotal}");
+                    }
+                    if (choice == "S")
+                    {
+                        Console.WriteLine("Now the dealer will draw.");
+                        dealerTotal = dealersTurn(dealerTotal, dealerCurrentHand, kaarten, values);
+
+                    }
+
+                }
+
+                if (spelerTotal == 21)
+                {
+                    Console.WriteLine($"\nW0W 21! Now it's the dealer's turn to draw.");
+                    dealerTotal = dealersTurn(dealerTotal, dealerCurrentHand, kaarten, values);
+                }
+                if (spelerTotal > 21)
+                {
+                    Console.WriteLine($"\nYou have gone bust!");
+                }
+
+
+                
+
+                //check rules again in document 
+                if (spelerTotal > 21)
+                {
+                    Console.WriteLine($"                                           Your Total: {spelerTotal}");
+                    Console.WriteLine($"\nYou Lose! You don't get your $10 back.                Balance:£{balance}");
+
+                }
+                else if (spelerTotal <= 21 && (spelerTotal > dealerTotal || dealerTotal > 21))
+                {
+                    Console.WriteLine($"                                           Your Total: {spelerTotal}");
+                    balance = balance + 30;
+                    Console.WriteLine($"\nYou win! You receive $20 and your $10 back!           Balance:£{balance}"); 
+                    
+
+                }
+                else if (spelerTotal < dealerTotal && dealerTotal <= 21)
+                {
+                    Console.WriteLine($"                                           Your Total: {spelerTotal}");
+                    Console.WriteLine($"\nYou lose! The dealer has more and you lose your $10    Balance:£{balance}");
+
+                }
+                else if (spelerTotal == dealerTotal)
+                {
+                    balance = balance + 10;
+                    Console.WriteLine($"                                           Your Total: {spelerTotal}");
+                    Console.WriteLine($"\nIt's a draw between you and the dealer! You get your $10 back!  Balance:£{balance}");
+                    
+                }
+
+                Console.WriteLine("\nDo you want to play again?");
+                keepPlaying = Console.ReadLine().ToUpper();
+
+                Console.Clear();
+
+            } while (keepPlaying == "Y");
+
+            gameMenu(balance);
+        }
+
+
+        //Dealers turn
+        static int dealersTurn(int dealerTotal, string dealerCurrentHand, string[] kaarten, int[] values)
+        {
+            System.Threading.Thread.Sleep(4000);
+            Console.Clear();
+            while (dealerTotal < 17)
+            {
+                int randomNumber = rGenerator.Next(0, 52);
+                dealerCurrentHand = dealerCurrentHand + kaarten[randomNumber] + "    ";
+                dealerTotal = dealerTotal + values[randomNumber];
+                Console.WriteLine($"{dealerCurrentHand}                            Total:{dealerTotal}");
+                System.Threading.Thread.Sleep(2000);
+                Console.Clear();
+            }
+            
+
+            Console.WriteLine("The dealer's final score: ");
+            Console.WriteLine($"{dealerCurrentHand}                                Total:{dealerTotal}");
+            return dealerTotal;
+        }
 
 
         //Add a user
@@ -490,10 +615,6 @@ namespace ProjectWeekClaire
             }
         }
 
-
-
-
-        
         
         //Log in 
         static void Inloggen()
@@ -517,7 +638,6 @@ namespace ProjectWeekClaire
         }
 
         
-
 
         //Edit a username and password  - MAKE METHODS FOR NEW USERNAME AND PASSWORD REGEX CHECK
         static void userBewerken()
@@ -590,16 +710,6 @@ namespace ProjectWeekClaire
         }
 
 
-
-
-
-
-
-
-
-
-
-       
       
         //Write to file (append)
         static void writeToFile(string userName, string password)
@@ -615,10 +725,6 @@ namespace ProjectWeekClaire
         }
 
 
-         
-
-
-
 
        //Replace/Edit user details 
          static void ReplaceUserDetails(string currentDetails, string newDetails)
@@ -628,9 +734,6 @@ namespace ProjectWeekClaire
             Console.WriteLine(newText);
             File.WriteAllText(@"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt", newText);  //if this doesn't work do it as a loop line by line and replace 
         }
-
-
-
 
 
 
@@ -663,12 +766,8 @@ namespace ProjectWeekClaire
 
 
 
-        
-
-
-
         //Check if password matches username 
-        static bool passwordMatch(string userdetails, string username)  //ADD LOOP TO ALLOW TO RUN 3 TIMES BEFORE RETURNING FALSE
+        static bool passwordMatch(string userdetails, string username)  
         {
             
             Console.WriteLine("Password:");
@@ -686,10 +785,8 @@ namespace ProjectWeekClaire
         }
 
 
-
-
-            //Encrypt 
-            static string Encrypt(string password)   // change to more secure encryption? opposite value on asscii table 
+        //Encrypt 
+        static string Encrypt(string password)   
             {
                 char[] passwordAsChars = password.ToCharArray();
                 for (int i = 0; i < passwordAsChars.Length; i++)
@@ -702,12 +799,8 @@ namespace ProjectWeekClaire
             }
 
 
-
-
-
-
-            //Decrypt
-            static string Decrypt(string password)
+        //Decrypt
+        static string Decrypt(string password)
             {
                 char[] passwordAsChars = password.ToCharArray();
                 for (int i = 0; i < passwordAsChars.Length; i++)
@@ -720,13 +813,20 @@ namespace ProjectWeekClaire
             }
 
 
+        //Change colour 
+        public static void changeColour (ConsoleColor colour, string text)
+        {
+            ConsoleColor originalColour = Console.ForegroundColor;
+            Console.ForegroundColor = colour;
+            Console.Write(text);
+            Console.ForegroundColor = originalColour;
+        }
 
 
 
 
 
 
-        
     }
 }
 
