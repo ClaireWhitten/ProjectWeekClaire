@@ -11,118 +11,67 @@ namespace ProjectWeekClaire
     class Program
     {
         
-
-        static Random rGenerator = new Random();
+        //global
+        static Random rGenerator = new Random(); 
+        static DateTime loginTime; 
 
        
         static void Main(string[] args)
         {
-        
-         
-            //showMenu();
 
-            int balance = 200; //to make global  - pass it through as parameter 
-
-
-
-
-            
-            
-            gameMenu(balance);
-            
-            
-
-          
+            showMenu();
+    
             Console.ReadLine();
         }
 
-
-
-
-        //METHODS 
-
-     
        
-        //Check symbols
-        static int symbolCheck(string symbol, int total, int balance)
-        {
-            switch (symbol)
-            {
-                case "☺":
-                    total = total + 3;
-                    balance = balance + total;
-                    Console.WriteLine($"You win $3                    Your balance: {balance}");
-                    break;
-                case "♠":
-                    total = total + 5;
-                    balance = balance + total;
-                    Console.WriteLine($"You win $5                    Your balance: {balance} ");
-                    break;
-                case "♣":
-                   
-                    total = total + 7;
-                    balance = balance + total;
-                    Console.WriteLine($"You win $7                    Your balance: {balance}");
-                    break;
-                case "♦":
-                    
-                    total = total + 10;
-                    balance = balance + total;
-                    Console.WriteLine($"You win $10                   Your balance: {balance}");
-                    break;
-                case "♥":
-                    
-                    total = total + 20;
-                    balance = balance + total;
-                    Console.WriteLine($"You win $20                   Your balance: {balance}");
-                    break;
-                case "A":
-                    
-                    total = total + 50;
-                    balance = balance + total;
-                    Console.WriteLine($"You win $50                   Your balance: {balance}");
-                    break;
-                case "7":
-                    
-                    total = total + 100;
-                    balance = balance + total;
-                    Console.WriteLine($"You win $100                  Your balance: {balance}");
-                    break;
-            }
-            return total;
-
-        }
+       
+       
 
         //Show main menu
         static void showMenu()
         {
-
-            Console.WriteLine("Wat wil je doen? Kies een nummer:");
-            Console.WriteLine("1. Gebruiker toevogen");
-            Console.WriteLine("2. Gebruiker bewerken");
-            Console.WriteLine("3. Gebruiker verwijderen");
-            Console.WriteLine("4. Inloggen");
+            Console.Clear();
+            Console.WriteLine("Choose an option:");
+            Console.WriteLine("1. Add User");
+            Console.WriteLine("2. Edit User");
+            Console.WriteLine("3. Delete User");
+            Console.WriteLine("4. Log In");
 
             string input = Console.ReadLine();
             switch (input)
             {
-                case "1":userToevoegen();break;
-                case "2": userBewerken(); break;
-                case "3": userVerwijderen(); break;
-                case "4": Inloggen(); break;
+                case "1":
+                    Console.Clear();
+                    userToevoegen();
+                    break;
+                case "2":
+                    Console.Clear();
+                    userBewerken();
+                    break;
+                case "3":
+                    Console.Clear();
+                    userVerwijderen();
+                    break;
+                case "4":
+                    Console.Clear();
+                    Inloggen(); 
+                    break;
             }
         }
 
 
         //Show game menu
-        static void gameMenu(int balance =200, string username= "unknown user")
+        static void gameMenu(int balance, string username)
         {
-           
-            Console.Write("WELCOME ");
+            Console.Clear();
+            Console.Write("\nWELCOME ");
             changeColour(ConsoleColor.Blue, $"{username}!\n");
-            //Console.WriteLine($"{date}, {time}   Je bent {length} ingelogd.");
-
-            Console.Write("You have ");
+            Console.Write(DateTime.Now.ToString("\ndd/MM/yyyy    HH:mm"));
+            Double TotalTimeOnline = Math.Round((DateTime.Now - loginTime).TotalMinutes);
+            Console.WriteLine($"   You've been logged in for {TotalTimeOnline} minutes.");
+            
+            Console.Write("\nYou have ");
             changeColour(ConsoleColor.Green, $"${balance} ");
             Console.WriteLine("left to play with!\n");
 
@@ -136,16 +85,16 @@ namespace ProjectWeekClaire
             {
                 case "1":
                     Console.Clear();
-                    BlackJack(balance);
+                    BlackJack(balance, username);
                     break;
 
                 case "2":
                     Console.Clear();
-                    SlotMachine(balance);                 
+                    SlotMachine(balance, username);                 
                     break;
                 case "3":
                     Console.Clear();
-                    Memory(balance);              
+                    Memory(balance, username);              
                     break;
                 case "4":
                     Console.Clear();
@@ -156,7 +105,7 @@ namespace ProjectWeekClaire
 
 
         //Memory Game
-        static void Memory(int balance)
+        static void Memory(int balance, string username)
         {
             string[] memorySymbols = { "☺", "♠", "♣", "♦", "♥", "▲", "Ω", "☺", "♠", "♣", "♦", "♥", "▲", "Ω", "☺", "♠", "♣", "♦", "♥", "▲", "Ω" };
             string[] sequence = new string[9];
@@ -168,9 +117,10 @@ namespace ProjectWeekClaire
             do
             {
                 balance = balance - 20;
-                //The sequence is created and appears
-                Console.WriteLine($"Welcome to the Memory Game!                                       Balance:£{balance}\n");
-                Console.WriteLine("You have 10 seconds to remember this sequence: \n");
+
+                //creates the new sequence
+                Console.WriteLine($"\nWelcome to the Memory Game!                                       Balance:£{balance}\n");
+               
                 for (int i = 1; i <= 9; i++)
                 {
                     Console.Write(i + "    ");
@@ -180,28 +130,32 @@ namespace ProjectWeekClaire
                 for (int i = 0; i < sequence.Length; i++)
                 {
                     sequence[i] = memorySymbols[rGenerator.Next(0, 21)];
-                    Console.Write(sequence[i] + "    ");
+                    rightColour(sequence[i]);
+                    System.Threading.Thread.Sleep(150);
+
                 }
 
+                Console.WriteLine("\n\nYou have 10 seconds to remember the 9 digit sequence above.\n ");
                 System.Threading.Thread.Sleep(10000);
                 Console.Clear();
 
 
-                Console.WriteLine("Key:  ☺ = 1     ♠ = 2      ♣ = 3      ♦ = 4      ♥ = 5    ▲ = 6     Ω = 7 \n");
-                Console.WriteLine("Now write the sequence using the key above. e.g. 173452266 \n");
+                Console.WriteLine("\nNow write the sequence using the key below. e.g. 173452266 \n");
+                Console.WriteLine("Key:  ☺ = 1     ♠ = 2      ♣ = 3      ♦ = 4      ♥ = 5    ▲ = 6     Ω = 7 ");
+                
 
 
                 do
                 {
 
-                    Console.Write("Sequence: \n");
+                    Console.Write("\nSequence: ");
 
                     answer = Console.ReadLine().Replace(" ", "");
 
-                    //add || Regex.IsMatch(answer, @"^\d+$")
-                    if (answer.Length != 9 || answer.Contains("8") || answer.Contains("9") || answer.Contains("0"))
+                   
+                    if (answer.Length != 9 || answer.Contains("8") || answer.Contains("9") || answer.Contains("0") || !Regex.IsMatch(answer, @"^\d+$"))
                     {
-                        Console.WriteLine("Your answer is not the correct length or uses invalid numbers. Try again.\n");
+                        Console.WriteLine("Your answer must be 9 digits and use numbers 1-7 only. Try again.\n");
                         valid = false;
                     }
                     else
@@ -211,28 +165,35 @@ namespace ProjectWeekClaire
 
                 } while (!valid);
 
-                convertedAnswer = answer.Replace("1", "☺")
-                        .Replace("2", "♠")
-                        .Replace("3", "♣")
-                        .Replace("4", "♦")
-                        .Replace("5", "♥")
-                        .Replace("6", "▲")
-                        .Replace("7", "Ω");
-                string sequenceString = string.Join("", sequence);
+                convertedAnswer = answer.Replace("1", "☺ ")
+                        .Replace("2", "♠   ")
+                        .Replace("3", "♣   ")
+                        .Replace("4", "♦   ")
+                        .Replace("5", "♥   ")
+                        .Replace("6", "▲   ")
+                        .Replace("7", "Ω   ");
+               
+
+                string sequenceString = string.Join(" ", sequence);
+                
 
                 Console.Clear();
-                Console.WriteLine($"Your answer:{convertedAnswer}\n");
-                Console.WriteLine($"The original sequence:{sequenceString}\n");
+                Console.WriteLine($"\nYour answer: {convertedAnswer}");
+                Console.Write($"\nThe original sequence: ");
+                for (int i = 0; i < sequence.Length; i++)
+                {
+                    rightColour(sequence[i]);
+                }
 
                 if (convertedAnswer == sequenceString)
                 {
                     balance = balance + 30;
-                    Console.WriteLine($"Correct sequence!! You get your $20 back and win $10!                        Balance:£{balance}");
+                    Console.WriteLine($"\nCorrect sequence!! You get your $20 back and win $10!                        Balance:£{balance}");
 
                 }
                 else
                 {
-                    Console.WriteLine($"Wrong sequence. You lose your $20.                                           Balance:£{balance}");
+                    Console.WriteLine($"\nWrong! You lose your $20.                                                     Balance:£{balance}");
                 }
 
                 Console.WriteLine("\n Do you want to play again? (Y/N)");
@@ -242,12 +203,14 @@ namespace ProjectWeekClaire
 
             } while (input == "Y");
 
-            gameMenu(balance);
+            gameMenu(balance, username);
 
         }
 
+
+
         //Slot Machine 
-        static void SlotMachine(int balance)
+        static void SlotMachine(int balance, string username)
         {
             int random;
             string[] symbols = { "☺", "♠", "♣", "♦", "♥", "A", "7" };
@@ -258,8 +221,8 @@ namespace ProjectWeekClaire
             {
                 balance = balance - 5;
 
-                Console.WriteLine($"Welcome to the Slot Machine!");
-                Console.WriteLine("Get 3 of the same symbols horizontally or diagonally to win!");
+                Console.WriteLine($"\nWelcome to the Slot Machine!");
+                Console.WriteLine("\nGet 3 of the same symbols horizontally or diagonally to win!\n");
 
 
                 for (int i = 0; i < fruitMachine.Length; i++)
@@ -270,23 +233,26 @@ namespace ProjectWeekClaire
 
                 for (int i = 0; i < fruitMachine.Length; i++)
                 {
-                    Console.Clear();
-                    Console.WriteLine($"{fruitMachine[i]} {fruitMachine[i + 1]} {fruitMachine[i + 2]}");
+
+                    if (i==2 || i == 5)
+                    {
+                        rightColour(fruitMachine[i]);
+                        Console.WriteLine("\n");
+                        
+                    } else
+                    {
+                        rightColour(fruitMachine[i]);
+                       
+                    }
+                    System.Threading.Thread.Sleep(150);
                 }
 
-
-                Console.WriteLine($"{fruitMachine[0]} {fruitMachine[1]} {fruitMachine[2]}");
-
-                Console.WriteLine($"{fruitMachine[3]} {fruitMachine[4]} {fruitMachine[5]}");
-
-                Console.WriteLine($"{fruitMachine[6]} {fruitMachine[7]} {fruitMachine[8]}");
-
-
+                System.Threading.Thread.Sleep(1000);
                 string symbol;
                 int total = 0;
                 for (int i = 0; i < fruitMachine.Length; i++)
                 {
-                    //check for horizontal rows and update total
+                    //checks for horizontal rows and returns money won
                     if (i == 0 || i == 3 || i == 6)
                     {
                         if (fruitMachine[i] == fruitMachine[i + 1] && fruitMachine[i + 1] == fruitMachine[i + 2])
@@ -297,7 +263,7 @@ namespace ProjectWeekClaire
 
                         }
                     }
-                    //check for diagonal rows and update total
+                    //checks for diagonal rows and returns money won
                     if (i == 0 || i == 7)
                     {
                         if (i == 0)
@@ -318,15 +284,16 @@ namespace ProjectWeekClaire
                         }
                     }
                 }
-                //check if no rows
+                //checks if no rows/no money returned
                 if (total == 0)
                 {
-                    Console.WriteLine($"No rows! Sorry you lose your $5.             Your balance: {balance}");
+                    Console.WriteLine($"\n\nNo rows! Sorry you lose your $5.");
+                    Console.WriteLine($"\nBalance: ${balance}");
                 }
 
                 balance = balance + total;
 
-                Console.WriteLine("Do you want to play again?");
+                Console.WriteLine("\nDo you want to play again?");
                 answer = Console.ReadLine().ToUpper();
 
                 Console.Clear();
@@ -336,14 +303,73 @@ namespace ProjectWeekClaire
             } while (answer == "Y");
 
 
-            gameMenu(balance);
+            gameMenu(balance, username);
 
 
         }
 
 
+        //Check symbols to calculate money
+        static int symbolCheck(string symbol, int total, int balance)
+        {
+            switch (symbol)
+            {
+                case "☺":
+                    total = total + 3 + 5;
+                    balance = balance + total;
+                    Console.WriteLine($"You win $3 and get your $5 back!!");
+                    Console.WriteLine($"\nBalance: ${balance}");
+                    break;
+                case "♠":
+                    total = total + 5 + 5;
+                    balance = balance + total;
+                    Console.WriteLine($"You win $5 and get your $5 back!!");
+                    Console.WriteLine($"\nBalance: ${balance}");
+                    break;
+                case "♣":
+
+                    total = total + 7 + 5;
+                    balance = balance + total;
+                    Console.WriteLine($"You win $7 and get your $5 back!!");
+                    Console.WriteLine($"\nBalance: ${balance}");
+                    break;
+                case "♦":
+
+                    total = total + 10 + 5;
+                    balance = balance + total;
+                    Console.WriteLine($"You win $10 and get your $5 back!!");
+                    Console.WriteLine($"\nBalance: ${balance}");
+                    break;
+                case "♥":
+
+                    total = total + 20 + 5;
+                    balance = balance + total;
+                    Console.WriteLine($"You win $20 and get your $5 back!!");
+                    Console.WriteLine($"\nBalance: ${balance}");
+                    break;
+                case "A":
+
+                    total = total + 50 + 5;
+                    balance = balance + total;
+                    Console.WriteLine($"You win $50 and get your $5 back!!");
+                    Console.WriteLine($"\nBalance: ${balance}");
+                    break;
+                case "7":
+
+                    total = total + 100 + 5;
+                    balance = balance + total;
+                    Console.WriteLine($"You win $100 and get your $5 back!");
+                    Console.WriteLine($"\nBalance: ${balance}");
+                    break;
+            }
+            return total;
+
+        }
+
+
+
         //Blackjack
-        static void BlackJack(int balance)
+        static void BlackJack(int balance, string username)
         {
             string[] kaarten = { "A♥", "2♥", "3♥", "4♥", "5♥", "6♥", "7♥", "8♥", "9♥", "10♥", "J♥", "Q♥", "K♥",
                 "A♦", "2♦", "3♦", "4♦", "5♦", "6♦", "7♦", "8♦", "9♦", "10♦", "J♦", "Q♦", "K♦",
@@ -364,13 +390,9 @@ namespace ProjectWeekClaire
             List<int> cardsDrawn = new List<int>();  
             string keepPlaying;
 
-
-
-
+            
             Console.WriteLine($"\nWelcome to Blackjack!");                               
-
-
-            Console.WriteLine("\nThe game will start in 20 seconds.");
+            Console.WriteLine("\nThe game will start in 10 seconds.");
             Console.WriteLine("\nYou will get 2 starting cards in your hand.");
             Console.WriteLine("\nKeep drawing cards to get as close to 21 as possible.");
             Console.WriteLine("\nBut don't go over 21 or you'll lose!");
@@ -381,13 +403,14 @@ namespace ProjectWeekClaire
 
 
             do {
+                //reset values
                 spelerCurrentHand = "";
                 cardsDrawn.Clear();
                 balance = balance - 10;
                 choice = "";
                 dealerTotal = 0;
 
-
+                Console.WriteLine($"Balance: ${balance}");
                 for (int i = 0; i < 2; i++)
                 {
                     int randomNumber = rGenerator.Next(0, 52);
@@ -402,7 +425,8 @@ namespace ProjectWeekClaire
                 if (spelerTotal == 21)
                 {
                     balance = balance + 25;
-                    Console.WriteLine($"\nWow! Your first 2 cards total 21. You win $25!  Balance:£{balance}");
+                    Console.WriteLine($"Balance: ${balance}");
+                    Console.WriteLine($"\nWow! Your first 2 cards total 21. You win $25!");
                     
                 }
 
@@ -415,6 +439,7 @@ namespace ProjectWeekClaire
                     if (choice == "D")
                     {
                         Console.Clear();
+                        Console.WriteLine($"Balance: ${balance}");
                         int randomNumber = rGenerator.Next(0, 52);
                         spelerCurrentHand = spelerCurrentHand + kaarten[randomNumber] + "    ";
                         cardsDrawn.Add(values[randomNumber]);
@@ -434,8 +459,8 @@ namespace ProjectWeekClaire
                     }
                     if (choice == "S")
                     {
-                        Console.WriteLine("Now the dealer will draw.");
-                        dealerTotal = dealersTurn(dealerTotal, dealerCurrentHand, kaarten, values);
+                        Console.WriteLine("\nNow the dealer will draw.");
+                        dealerTotal = dealersTurn(dealerTotal, dealerCurrentHand, kaarten, values, balance);
 
                     }
 
@@ -444,7 +469,7 @@ namespace ProjectWeekClaire
                 if (spelerTotal == 21)
                 {
                     Console.WriteLine($"\nW0W 21! Now it's the dealer's turn to draw.");
-                    dealerTotal = dealersTurn(dealerTotal, dealerCurrentHand, kaarten, values);
+                    dealerTotal = dealersTurn(dealerTotal, dealerCurrentHand, kaarten, values, balance);
                 }
                 if (spelerTotal > 21)
                 {
@@ -454,33 +479,42 @@ namespace ProjectWeekClaire
 
                 
 
-                //check rules again in document 
+               
                 if (spelerTotal > 21)
                 {
-                    Console.WriteLine($"                                           Your Total: {spelerTotal}");
-                    Console.WriteLine($"\nYou Lose! You don't get your $10 back.                Balance:£{balance}");
+                    
+                    Console.WriteLine($"\nYou Lose! You don't get your $10 back.");
 
                 }
                 else if (spelerTotal <= 21 && (spelerTotal > dealerTotal || dealerTotal > 21))
                 {
-                    Console.WriteLine($"                                           Your Total: {spelerTotal}");
                     balance = balance + 30;
-                    Console.WriteLine($"\nYou win! You receive $20 and your $10 back!           Balance:£{balance}"); 
-                    
+                    Console.WriteLine("\nYour final score: ");
+                    Console.WriteLine($"{spelerCurrentHand}                         Total:{spelerTotal}");
+                    Console.WriteLine($"\nYou win! You receive $20 and your $10 back!");
+                    Console.WriteLine($"\nBalance: ${balance}");
+
 
                 }
                 else if (spelerTotal < dealerTotal && dealerTotal <= 21)
                 {
-                    Console.WriteLine($"                                           Your Total: {spelerTotal}");
-                    Console.WriteLine($"\nYou lose! The dealer has more and you lose your $10    Balance:£{balance}");
+                    
+                    Console.WriteLine("\nYour final score: ");
+                    Console.WriteLine($"{spelerCurrentHand}                         Total:{spelerTotal}");
+                    Console.WriteLine($"\nYou lose! The dealer has more and you lose your $10.");
+                    Console.WriteLine($"\nBalance: ${balance}");
+
 
                 }
                 else if (spelerTotal == dealerTotal)
                 {
                     balance = balance + 10;
-                    Console.WriteLine($"                                           Your Total: {spelerTotal}");
-                    Console.WriteLine($"\nIt's a draw between you and the dealer! You get your $10 back!  Balance:£{balance}");
                     
+                    Console.WriteLine("\nYour final score: ");
+                    Console.WriteLine($"{spelerCurrentHand}                         Total:{spelerTotal}");
+                    Console.WriteLine($"\nIt's a draw between you and the dealer! You get your $10 back!");
+                    Console.WriteLine($"\nBalance: ${balance}");
+
                 }
 
                 Console.WriteLine("\nDo you want to play again?");
@@ -490,28 +524,27 @@ namespace ProjectWeekClaire
 
             } while (keepPlaying == "Y");
 
-            gameMenu(balance);
+            gameMenu(balance, username);
         }
 
 
-        //Dealers turn
-        static int dealersTurn(int dealerTotal, string dealerCurrentHand, string[] kaarten, int[] values)
+        //Dealer's turn
+        static int dealersTurn(int dealerTotal, string dealerCurrentHand, string[] kaarten, int[] values, int balance)
         {
-            System.Threading.Thread.Sleep(4000);
+            System.Threading.Thread.Sleep(3000);
             Console.Clear();
             while (dealerTotal < 17)
             {
+                Console.WriteLine($"Balance: ${balance}");
                 int randomNumber = rGenerator.Next(0, 52);
                 dealerCurrentHand = dealerCurrentHand + kaarten[randomNumber] + "    ";
                 dealerTotal = dealerTotal + values[randomNumber];
-                Console.WriteLine($"{dealerCurrentHand}                            Total:{dealerTotal}");
+                Console.WriteLine($"\n{dealerCurrentHand}                        Total:{dealerTotal}");
                 System.Threading.Thread.Sleep(2000);
                 Console.Clear();
             }
-            
-
             Console.WriteLine("The dealer's final score: ");
-            Console.WriteLine($"{dealerCurrentHand}                                Total:{dealerTotal}");
+            Console.WriteLine($"{dealerCurrentHand}                              Total:{dealerTotal}");
             return dealerTotal;
         }
 
@@ -519,52 +552,44 @@ namespace ProjectWeekClaire
         //Add a user
         static void userToevoegen()
         {
-            Console.WriteLine("Kies een username. Gebruik alleen maar cijfers en letters.");
-            Console.WriteLine("Username:");
+            Console.WriteLine("\nChoose a username. Use letters and numbers only.");
+            Console.Write("\nUsername:");
             string userName = Console.ReadLine();
             Regex userPattern = new Regex(@"^[a-zA-Z0-9]+$");
             if (userPattern.IsMatch(userName))
             {
-                Console.WriteLine("Valid Username!");
-                string path = @"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt";
-                using (StreamReader reader = new StreamReader(path))
+                
+                string path = "../../data.txt";
+                string returnedUserDetails = searchFile(userName, path);
+                if (!String.IsNullOrEmpty(returnedUserDetails))
                 {
-                    while (!reader.EndOfStream)
-                    {
-                        string line = reader.ReadLine();
-                        if (line.Contains(userName))
-                        {
-                            Console.WriteLine("Deze username in al in gebruik. Kies een andere username.");
-                            userToevoegen();
-                        }
-                    }
+                    Console.WriteLine("This username is already in use. Choose another one.");
+                    userToevoegen();
                 }
 
                 bool valid = false;
                 while (!valid)
                 {
-                    Console.WriteLine("Kies een password. Gebruik het volgende: \n  - 1 hoofdletter \n  - 1 kleine letter \n - 1 cijfer \n - 1 vreemd teken \n -8-20 characters");
-                    Console.WriteLine("Password:");
+                    Console.WriteLine("\nChoose a password. Your password must have: \n1 capital letter \n1 lowercase letter \n1 number \n1 symbol \n8-20 characters");
+                    Console.Write("\nPassword:");
                     string password = Console.ReadLine();
-                    Regex passwordPattern = new Regex(@"[a-z]+[A-Z]+[0-9]+[^a-zA-Z0-9]+");// only working in this order - how to change??? can you check length with reg ex   At least one special character [*.!@#$%^&(){}[]:;<>,.?/~_+-=|\]
-                    //change to  if password.Any(char klein) && pasword.Any(char hoofd) && password.Any(int number) && regex for symbols only  - then it can be in any order 
                     
-                    if (passwordPattern.IsMatch(password) && password.Length >= 8 && password.Length <= 20)
+                    if (validatePassword(password))
                     {
-                        Console.WriteLine("Valid password!");
+                        changeColour(ConsoleColor.Green,"Valid password.");
                         valid = true;
                         string encryptedPassword = Encrypt(password);
                         writeToFile(userName, encryptedPassword);
                     }
                     else
                     {
-                        Console.WriteLine("Invalid password. De voorwaarden zijn: \n  - 1 hoofdletter \n  - 1 kleine letter \n - 1 cijfer \n - 1 vreemd teken \n -8-20 characters \n Kies een andere password.");
+                    changeColour(ConsoleColor.Red,"Invalid password!");
                     }
                 }
 
             } else
             {
-                Console.WriteLine("Invalid username! Use letters and numbers only. Kies een andere user name.");
+                changeColour(ConsoleColor.Red, "Invalid username!");
                 userToevoegen();
             }
         }
@@ -573,44 +598,45 @@ namespace ProjectWeekClaire
         //Delete a user
         static void userVerwijderen()
         {
-            Console.WriteLine("Geef de naam van de gebruiker dat je wil verwijderen.");
+            Console.WriteLine("Give the name of the user you want to delete.");
             Console.WriteLine("Username:");
             string userName = Console.ReadLine();
-            string path = @"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt";
+            string path = "../../data.txt";
             string returnedUserDetails = searchFile(userName, path);
             if (!String.IsNullOrEmpty(returnedUserDetails)) 
             {
-                Console.WriteLine("Geef de juiste wachtwoord in om deze gebruiker te verwijderen.");
+                Console.WriteLine("Give the correct password to delete the user.");
 
                 if (passwordMatch(returnedUserDetails, userName))
                 {
                     
-                    string[] allUsersArray = File.ReadAllLines(@"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt"); //ReadAllLines returns an array
-                    List<string> allUsersList = allUsersArray.OfType<string>().ToList(); //changed to a list so I can more easily remove an item
+                    string[] allUsersArray = File.ReadAllLines("../../data.txt"); //ReadAllLines returns an array
+                    List<string> allUsersList = allUsersArray.OfType<string>().ToList(); //changed to a list so can more easily remove an item
                     int index = allUsersList.IndexOf(returnedUserDetails);
                     allUsersList.RemoveAt(index);
 
-                    using (StreamWriter writer = new StreamWriter(@"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt"))
+                    using (StreamWriter writer = new StreamWriter("../../data.txt"))
                     {
                         for (int i = 0; i < allUsersList.Count; i++)
                         {
-                            Console.WriteLine(allUsersList[i]);  //prints the left items in list once it has been removed to console
                             writer.WriteLine(allUsersList[i]);    // writes the left items in list once it has been removed to the text file  - should be gone 
                         }
                     }
 
-                        Console.WriteLine(allUsersList.Count); //why is this still 3? - the removed item is leaving an empty space 
-                        Console.WriteLine("Deze gebruiker is successvol verwijderd.");
+                    Console.WriteLine("This user has been successfully deleted.");
+                    System.Threading.Thread.Sleep(3000);
+                    showMenu();
                 }
                 else
                 {
-                    Console.WriteLine("Foute password ingevuld. User kan niet verwijderd worden");
+                    Console.WriteLine("Incorrect password. User cannot be deleted.");
+                    System.Threading.Thread.Sleep(3000);
                     showMenu();
                 }
             }
             else
             {
-                Console.WriteLine("Deze gebruikersnaam bestaat niet. Probeer opnieuw.");
+                Console.WriteLine("This username is not recognised. Try again.");
                 userVerwijderen();
             }
         }
@@ -619,19 +645,25 @@ namespace ProjectWeekClaire
         //Log in 
         static void Inloggen()
         {
-            Console.Write("Gebruikersnaam:");
-            string userName = Console.ReadLine();
-            string returnedUserDetails = searchFile(userName, @"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt");
+            Console.Write("\nUsername:");
+            string userName = Console.ReadLine().ToLower();
+            string returnedUserDetails = searchFile(userName, "../../data.txt");
             if (!String.IsNullOrEmpty(returnedUserDetails))
             {
                 if (passwordMatch(returnedUserDetails, userName))
                 {
+                    loginTime = DateTime.Now;
                     gameMenu(200, userName);
+                }
+                else
+                {
+                    Console.WriteLine("\nThe password for this user was incorrect. Try entering your username and password again.");
+                    Inloggen();
                 }
             }
             else
             {
-                Console.WriteLine("Deze gebruikersnaam is niet herkend. Probeer opnieuw.");
+                Console.WriteLine("\nThis username is not recognised. Try again.");
                 Inloggen();
             }
            
@@ -639,73 +671,73 @@ namespace ProjectWeekClaire
 
         
 
-        //Edit a username and password  - MAKE METHODS FOR NEW USERNAME AND PASSWORD REGEX CHECK
+        //Edit a username and password  
         static void userBewerken()
         {
-            Console.WriteLine("Geef jouw huidige gebruikersnaam en wachtword.");
-            Console.Write("Huidige gebruikersnaam:");
-            string userName = Console.ReadLine();
-            string currentUserDetails = searchFile(userName, @"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt");
+            Console.WriteLine("Give your current username or password.");
+            Console.Write("Current username:");
+            string userName = Console.ReadLine().ToLower();
+            string path = "../../data.txt";
+            string currentUserDetails = searchFile(userName,path);
             if (!String.IsNullOrEmpty(currentUserDetails))
             {
-                Console.Write("Huidige ");
-
+                Console.Write("Current ");
                 if (passwordMatch(currentUserDetails, userName))
                 {
-                    Console.WriteLine("Kies een nieuwe gebruikersnaam. Gebruik alleen maar cijfers en letters.");   ///CHANGE TO METHOD 
-                    Console.WriteLine("Nieuwe gebruikersnaam:");
+                    Console.WriteLine("Choose a new username. Use letters and numbers only.");   
+                    Console.WriteLine("New username:");
                     string newUserName = Console.ReadLine();
                     Regex userPattern = new Regex(@"^[a-zA-Z0-9]+$");
                     if (userPattern.IsMatch(newUserName))
                     {
-                        Console.WriteLine("Jouw nieuw gevruikersnaam is valid!");
-                        string path = @"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt";
-                        using (StreamReader reader = new StreamReader(path))
+                        string returnedUserDetails = searchFile(newUserName, path);
+                        if (!String.IsNullOrEmpty(returnedUserDetails))
                         {
-                            while (!reader.EndOfStream)
-                            {
-                                string line = reader.ReadLine();
-                                if (line.Contains(newUserName))
-                                {
-                                    Console.WriteLine("Deze username in al in gebruik. Probeer opnieuw.");
-                                    userBewerken();
-                                }
-                            }
+                            Console.WriteLine("Username already in use. Try again.");
+                            userBewerken();
                         }
 
                         bool valid = false;
                         while (!valid)
                         {
-                            Console.WriteLine("Kies een password. Gebruik het volgende: \n  - 1 hoofdletter \n  - 1 kleine letter \n - 1 cijfer \n - 1 vreemd teken \n -8-20 characters");
+                            Console.WriteLine("\nChoose a password.Your password must have: \n1 capital letter \n1 lowercase letter \n1 number \n1 symbol \n8 - 20 characters");
                             Console.WriteLine("Password:");
                             string newPassword = Console.ReadLine();
-                            Regex passwordPattern = new Regex(@"[a-z]+[A-Z]+[0-9]+[^a-zA-Z0-9]+");// only working in this order - how to change??? can you check length with reg ex   At least one special character [*.!@#$%^&(){}[]:;<>,.?/~_+-=|\]
-                            if (passwordPattern.IsMatch(newPassword) && newPassword.Length >= 8 && newPassword.Length <= 20)
+                            if (validatePassword(newPassword))
                             {
-                                Console.WriteLine("Valid password!");
+                                changeColour(ConsoleColor.Green, "\nValid password!");
                                 valid = true;
                                 string newEncryptedPassword = Encrypt(newPassword);
                                 string newUserDetails = $"{newUserName}#{newEncryptedPassword}";
                                 ReplaceUserDetails(currentUserDetails, newUserDetails);
-                                Console.WriteLine("Jouw gebruikersnaam en password is successvol begewerkt.");
-                                Console.WriteLine("Nu kan je inloggen met deze nieuwe gegevens.");
+                                Console.WriteLine("\nYour username and password have been successfully changed.");
+                                Console.WriteLine("Now you can log in with these new details.");
+                                System.Threading.Thread.Sleep(3000);
                                 showMenu();
                             }
                             else
                             {
-                                Console.WriteLine("Invalid password. De voorwaarden zijn: \n  - 1 hoofdletter \n  - 1 kleine letter \n - 1 cijfer \n - 1 vreemd teken \n -8-20 characters \n Kies een andere password.");
+                                changeColour(ConsoleColor.Red, "Invalid password!");
                             }
                         }
 
                     }
                     else
                     {
-                        Console.WriteLine("Invalid username! Use letters and numbers only. Kies een andere user name.");
+                        changeColour(ConsoleColor.Red, "Invalid username! Try again.");
                         userBewerken();
                     }
+                } else
+                {
+                    Console.WriteLine("\nThe password for this user was incorrect. Try entering your username and password again.");
+                    userBewerken();
                 }
 
-            }      
+            } else
+            {
+                Console.WriteLine("\nThis username is not recognised. Try again.");
+                userBewerken();
+            }   
             
         }
 
@@ -714,13 +746,14 @@ namespace ProjectWeekClaire
         //Write to file (append)
         static void writeToFile(string userName, string password)
         {
-            string path = @"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt"; //will this path work on other computers?
-            using (StreamWriter writer = File.AppendText(path))
+            string path = "../../data.txt"; //will this path work on other computers?
+            using (StreamWriter writer = new StreamWriter(path, true)) // 2nd parameter: false = overwrites text and true = appends text
             {
                 string userDetails = $"{userName}#{password}";
                 writer.WriteLine(userDetails);
-            }
-            Console.WriteLine("Jouw gebruikersnaam en wachtwoord zijn opgeslagen. Nu kan je inloggen.");
+            } 
+            Console.WriteLine("\nYour username and password have been saved. Now you can log in.");
+            System.Threading.Thread.Sleep(3000);
             showMenu();
         }
 
@@ -729,10 +762,15 @@ namespace ProjectWeekClaire
        //Replace/Edit user details 
          static void ReplaceUserDetails(string currentDetails, string newDetails)
          {
-            string dataText = File.ReadAllText(@"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt");
+            string dataText;
+            using (StreamReader reader = new StreamReader("../../data.txt"))
+            {
+                dataText = reader.ReadToEnd();
+                
+            }
             string newText = dataText.Replace(currentDetails, newDetails);
-            Console.WriteLine(newText);
-            File.WriteAllText(@"C:\Users\clair\source\repos\ProjectWeekClaire\ProjectWeekClaire\data.txt", newText);  //if this doesn't work do it as a loop line by line and replace 
+            File.WriteAllText("../../data.txt", newText); 
+                
         }
 
 
@@ -748,7 +786,12 @@ namespace ProjectWeekClaire
                     string line = reader.ReadLine();
                     if (line.Contains(username))
                     {
-                        userDetails = line;
+                        string[] split = line.Split('#');
+                        if (split[0] == username)
+                        {
+                            userDetails = line;
+                        }
+                        
                         break;
                     }
                     else if (reader.EndOfStream)
@@ -765,12 +808,29 @@ namespace ProjectWeekClaire
         }
 
 
+        //validate password (requirements/length)
+        static bool validatePassword(string password)
+        {
 
-        //Check if password matches username 
+            string specialCharacters = "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+
+            if (password.Any(char.IsDigit) && password.Any(char.IsUpper) && password.Any(char.IsLower) && password.Any(letter => specialCharacters.Contains(letter)) && password.Length >= 8 && password.Length <= 20) 
+            {                                                                                              //iterates over each letter and checks if the letter contains one of the special characters
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }          
+
+
+
+        //Check username matches password 
         static bool passwordMatch(string userdetails, string username)  
         {
             
-            Console.WriteLine("Password:");
+            Console.Write("Password:");
             string password = Console.ReadLine();
             string[] subs = userdetails.Split('#');
             string decryptedPassword = Decrypt(subs[1]);
@@ -794,7 +854,6 @@ namespace ProjectWeekClaire
                     passwordAsChars[i]++;
                 }
                 string encryptedPassword = new string(passwordAsChars);
-                Console.WriteLine(encryptedPassword);
                 return encryptedPassword;
             }
 
@@ -808,7 +867,6 @@ namespace ProjectWeekClaire
                     passwordAsChars[i]--;
                 }
                 string decryptedPassword = new string(passwordAsChars);
-                Console.WriteLine(decryptedPassword);
                 return decryptedPassword;
             }
 
@@ -822,8 +880,23 @@ namespace ProjectWeekClaire
             Console.ForegroundColor = originalColour;
         }
 
-
-
+        
+        // determines colour of symbols before printing
+        public static void rightColour(string symbol)
+        {
+            switch (symbol)
+            {
+                case "☺": changeColour(ConsoleColor.Yellow, "☺    ");break;
+                case "♠": changeColour(ConsoleColor.Blue, "♠    "); break;
+                case "♣": changeColour(ConsoleColor.Green, "♣    "); break;
+                case "♦": changeColour(ConsoleColor.Red, "♦    "); break;
+                case "♥": changeColour(ConsoleColor.DarkRed, "♥    "); break;
+                case "A": changeColour(ConsoleColor.DarkBlue, "A    "); break;
+                case "7": changeColour(ConsoleColor.DarkGreen, "7    "); break;
+                case "▲": changeColour(ConsoleColor.White, "▲    "); break;
+                case "Ω": changeColour(ConsoleColor.Cyan, "Ω    "); break;
+            }
+        }
 
 
 
